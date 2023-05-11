@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>JavaScript Quiz</title>
+    <style>
+    body {
+      background-color: #ffe6e6;
+    }
+    button{
+      background-color: ;
+  color: black;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+    }
+    h1{
+      font-size: 15px;
+    }
+  </style>
+  </head>
+  <body>
+    <h1>QUIZ MANSION!</h1>
+    <div id="quiz">
+      <div id="question"></div>
+      <div id="choices"></div>
+      <div id="result"></div>
+    </div>
+
+    <div id="game-over" style="display: none;">
+      <h2>Game Over</h2>
+      <p>Thanks for playing the quiz!</p>
+      <button id="restart">Restart</button>
+    </div>
+
+    <script>
+      const questions = [
+        {q: "can be written with, or without decimals and written without quotation marks.", c: ["numbers", "letters", "signs", "everything"], a: 0},
+        {q: "is an action that occurs as per the user's instruction as input and gives the output in response", c: ["Functions", "Events", "pop", "everything"], a: 1},
+        {q: "What is the output of the following code: console.log(1 + '3' + '8')?", c: ["138", "32", "5", "everything"], a: 0},
+        {q: " is a block of code designed to perform a particular task.", c: ["Boolean", "Number", "Function", "everything"], a: 2},
+        {q: "are used to store multiple values in a single variable ", c: ["Boolean", "Number", "Arrays", "everything"], a: 2}
+      ];
+
+      let currentQuestion = 0;
+
+      const quiz = document.getElementById("quiz");
+      const questionEl = document.getElementById("question");
+      const choicesEl = document.getElementById("choices");
+      const resultEl = document.getElementById("result");
+      const gameOver = document.getElementById("game-over");
+
+      function showQuestion() {
+        const question = questions[currentQuestion];
+        questionEl.textContent = question.q;
+        choicesEl.innerHTML = question.c.map(choice => `<button>${choice}</button>`).join("");
+        choicesEl.addEventListener("click", selectChoice);
+      }
+
+      function selectChoice(event) {
+        if (!event.target.matches("button")) return;
+        const selectedChoice = event.target.textContent;
+        const question = questions[currentQuestion];
+        resultEl.textContent = selectedChoice === question.c[question.a] ? "Correct!" : "Wrong!";
+        currentQuestion++;
+        if (currentQuestion === questions.length) endGame();
+        else showQuestion();
+      }
+
+      function endGame() {
+        quiz.style.display = "none";
+        gameOver.style.display = "block";
+      }
+
+      function restartGame() {
+        currentQuestion = 0;
+        quiz.style.display = "block";
+        gameOver.style.display = "none";
+        showQuestion();
+      }
+
+      showQuestion();
+      document.getElementById("restart").addEventListener("click", restartGame);
+    </script>
+    <h1>REFERENCE: Questions is from the notes</h1>
+  </body>
+</html>
